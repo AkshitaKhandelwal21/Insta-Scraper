@@ -28,6 +28,27 @@ try:
     description = soup.find('meta', attrs={'name': 'description'})['content']
     # print(description)
 
+    
+# META DATA COLLECTION
+    counts = re.findall(r'(\d[\d,.]*\s*[KM]?)\s*(Followers|Following|Posts)', description)
+
+    follower_count = following_count = post_count = None
+
+    for count, label in counts:
+        if label == "Followers":
+            follower_count = count
+        elif label == "Following":
+            following_count = count
+        elif label == "Posts":
+            post_count = count
+
+    profile_info = description.split('-')[1].strip()
+
+    print(f"Profile Info: {profile_info}")
+    print(f"Followers: {follower_count}")
+    print(f"Following: {following_count}")
+    print(f"Posts: {post_count}")
+
 except Exception as e:
     print(f"An error occurred: {e}")
 
