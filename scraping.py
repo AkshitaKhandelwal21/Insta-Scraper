@@ -81,6 +81,25 @@ try:
     print(f"Following: {following_count}")
     print(f"Posts: {post_count}")
 
+
+    # POSTS DATA COLLECTION
+    posts = driver.find_elements(By.XPATH, "//article//a[contains(@href, '/p/') or contains(@href, '/reel/')]")
+    num_posts = 5
+    post_links = [post.get_attribute('href') for post in posts[:num_posts]]
+    posts_data = []
+
+    for i, post_link in enumerate(post_links):
+        post_data = get_post_data(driver, post_link, num_posts)
+        post_data['link'] = post_link
+        posts_data.append(post_data)
+
+        print(f"Post {i + 1}:")
+        print(f"Link: {post_data['link']}")
+        print(f"Caption: {post_data['caption'][0:]}...")
+        print(f"Hashtags: {', '.join(post_data['hashtags'])}")
+
+        time.sleep(3)
+
 except Exception as e:
     print(f"An error occurred: {e}")
 
